@@ -5,16 +5,51 @@ from django.contrib.auth.models import User
 
 # Create your forms here.
 
-class NewUserForm(UserCreationForm):
+class Admin_Form(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "email", "password1", "password2",)
 
     def save(self, commit=True):
-        user = super(NewUserForm, self).save(commit=False)
+        user = super(Admin_Form, self).save(commit=False)
         user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
+class Mod_Form(UserCreationForm):
+    email = forms.EmailField(required=True)
+    address = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2","address")
+
+    def save(self, commit=True):
+        user = super(Mod_Form, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.address = self.cleaned_data['address']
+        if commit:
+            user.save()
+        return user
+
+class User_Form(UserCreationForm):
+    email = forms.EmailField(required=True)
+    address = forms.CharField(required=True)
+    #DOB = forms.DateTimeField(required=True)
+    DOB = forms.DateField(widget = forms.SelectDateWidget, required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2","address","DOB")
+
+    def save(self, commit=True):
+        user = super(User_Form, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.address = self.cleaned_data['address']
+        user.DOB = self.cleaned_data['DOB']
         if commit:
             user.save()
         return user
