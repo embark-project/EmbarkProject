@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from app import views
-from .views import index, login, admin_register,mod_register,user_register
+from .views import index, login, admin_register, mod_register, user_register
 
 admin.autodiscover()
 
