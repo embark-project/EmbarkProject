@@ -1,3 +1,3 @@
 # EmbarkProject
 
-This project is developed using Python-Django
+This project is developing using Python-Django
