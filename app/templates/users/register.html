@@ -7,30 +7,31 @@
 
 <center><h2>Registeration</h2></center>
 <div class="container py-5">
+<form method="POST">
 {% for choice in choices %}
 
 {% if choice == 0 %}
-	<form method="POST" action="/admin_register/">
+	
 		{% csrf_token %}
-		{{ Admin_Form|crispy }}                    
-	</form>
+		{{ Admin_Form|crispy }}     
 
 {% elif choice == 1 %}
-	<form method="POST" action='/mod_register/'>
+	
 		{% csrf_token %}
-		{{ Mod_Form|crispy }}                    
-	</form>
+		{{ Mod_Form|crispy }}         
+		
 
 {% else %}
-	<form method="POST" action='/user_register/'>
+	
 		{% csrf_token %}
-		{{ User_Form|crispy }}                    
-	</form>
+		{{ User_Form|crispy }} 
+		                  
 {% endif %}
 
 {% endfor %}
 <br>
-<button class="btn btn-primary" type="submit">Register</button>
+<input class="btn btn-primary" type="submit" value="submit"> 
+</form>
 <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
 
 </div>

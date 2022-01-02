@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import User_type
 
 YEARS= [x for x in range(1940,2021)]
 
@@ -16,9 +17,8 @@ class Admin_Form(UserCreationForm):
     def save(self, commit=True):
         user = super(Admin_Form, self).save(commit=False)
         user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-        return user
+        user = User_type(name=name, email=email, password=password)
+        user.save()
 
 class Mod_Form(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -32,9 +32,8 @@ class Mod_Form(UserCreationForm):
         user = super(Mod_Form, self).save(commit=False)
         user.email = self.cleaned_data['email']
         user.address = self.cleaned_data['address']
-        if commit:
-            user.save()
-        return user
+        user = User_type(name=name, email=email, password=password, address=address)
+        user.save()
 
 class User_Form(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -52,9 +51,9 @@ class User_Form(UserCreationForm):
         user.address = self.cleaned_data['address']
         user.DOB = self.cleaned_data['DOB']
         user.phone = self.cleaned_data['phone']
-        if commit:
-            user.save()
-        return user
+        user = User_type(name=name, email=email, password=password, address=address, DOB=DOB, phone=phone)
+        user.save()
+
 
 class InputForm(forms.Form):
 
