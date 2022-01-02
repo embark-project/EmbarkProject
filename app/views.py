@@ -19,9 +19,12 @@ def admin_register(request):
         username     = request.POST.get('username', '')
         email     = request.POST.get('email', '')
         password = request.POST.get('password1', '')
-        obj = User_type(username=username, email=email, password=password)
-        obj.save()
-        return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
+        password2 = request.POST.get('password2','')
+        role = 0
+        if password == password2:
+            obj = User_type(username=username, email=email, password=password, role='admin')
+            obj.save()
+            return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
@@ -31,9 +34,14 @@ def mod_register(request):
         username     = request.POST.get('username', '')
         email     = request.POST.get('email', '')
         password = request.POST.get('password1', '')
-        obj = User_type(username=username, email=email, password=password)
-        obj.save()
-        return render(request, 'users/register.html', {'Mod_Form':form, "choices":choices})
+        password2 = request.POST.get('password2','')
+        address = request.POST.get('address','')
+        role = 1
+        if password == password2:
+            obj = User_type(username=username, email=email, password=password,
+                address=address, role='moderator')
+            obj.save()
+            return render(request, 'users/register.html', {'Mod_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Mod_Form':form, "choices":choices})
 
@@ -43,9 +51,16 @@ def user_register(request):
         username     = request.POST.get('username', '')
         email     = request.POST.get('email', '')
         password = request.POST.get('password1', '')
-        obj = User_type(username=username, email=email, password=password)
-        obj.save()
-        return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
+        password2 = request.POST.get('password2','')
+        address = request.POST.get('address','')
+        dob = request.POST.get('dob','')
+        phone = request.POST.get('phone','')
+        role = 2
+        if password == password2:
+            obj = User_type(username=username, email=email, password=password, 
+                address=address, dob=dob, phone=phone, role='user')
+            obj.save()
+            return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
 
@@ -106,7 +121,66 @@ def user_register(request):
     form = User_Form()
     return render(request, "users/register.html", context={"User_Form":form, "choices":choices})
 '''
+def admin_login(request):
+    context ={}
+    context['form']= InputForm()
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = User_type(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("templates/moderators/mod_home.html")
+            else:
+                messages.error(request,"Invalid username or password.")
+        else:
+            messages.error(request,"Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request,"users/login.html",context)
 
+def mod_login(request):
+    context ={}
+    context['form']= InputForm()
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("templates/moderators/mod_home.html")
+            else:
+                messages.error(request,"Invalid username or password.")
+        else:
+            messages.error(request,"Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request,"users/login.html",context)
+
+def user_login(request):
+    context ={}
+    context['form']= InputForm()
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("main:homepage")
+            else:
+                messages.error(request,"Invalid username or password.")
+        else:
+            messages.error(request,"Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request,"users/login.html",context)
+'''
 def login(request):
     context ={}
     context['form']= InputForm()
@@ -126,3 +200,4 @@ def login(request):
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
     return render(request,"users/login.html",context)
+    '''

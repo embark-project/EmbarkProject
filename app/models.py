@@ -8,12 +8,12 @@ class User_type(models.Model):
     address = models.CharField(max_length=40, null=True)
     dob = models.DateField(max_length=15, null=True)
     phone = models.CharField(max_length=10, null=True)
+    role = models.CharField(max_length=15,null=True)
 
     class Meta:
       db_table = "User_type"
 
-    def __unicode__(self):
-        return "{0} {1} {2} {3} {4}".format(
-            self, self.username, self.password, self.email, self.address, self.dob, self.phone)
+    def __str__(self):
+        return f'{self.username} registered as {self.role} '
 
     
