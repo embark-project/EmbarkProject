@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from app import views
 from .views import index, login
-from .views import admin_register, mod_register, user_register, profile_view
+from .views import admin_register, mod_register, user_register, profile_view, delete_profile
 
 admin.autodiscover()
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('mod_home/', views.mod_home, name="mod_home"),
     path('user_home/', views.user_home, name="user_home"),
     path('profile_view/', views.profile_view, name="profile_view"),
+    path('delete_profile(?P<int:pid>)/', delete_profile, name='delete_profile'),
 ]
 
 

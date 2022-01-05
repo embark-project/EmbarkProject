@@ -15,9 +15,15 @@
             <br>
             
             <h2 class="text-center"> My Profile</h2>
-                <table id="example" class="table table-hover"> 
+                <table id="example" class="table table-hover" > 
                     <thead>
                         <tr>
+                          <td>User_id</td>
+                          <td>Name</td>
+                          <td>Email</td>
+                          <td>Mobile</td>
+                          <td>Address</td>
+                          
                            
                            
                         </tr>
@@ -25,11 +31,15 @@
                     <tbody>
                       {% for i in doc %}
                       <tr>
+                          <td>{{i.id}}</td>
                           <td>{{i.username}}</td>
-                          <td>{{i.password}}</td>
                           <td>{{i.email}}</td>
                           <td>{{i.phone}}</td>
-                          <td>{{i.quantity}}</td></tr>
+                          <td>{{i.address}}</td>
+                          
+                          <td><a href="{% url 'delete_profile' i.id  %}" 
+                            onclick="return confirm('Are you sure you want to delete?')" class="btn btn">Delete</a></td>
+                      
                       {% endfor %}
                     </tbody>
                 </table>

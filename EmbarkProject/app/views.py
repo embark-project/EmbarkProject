@@ -26,7 +26,7 @@ def admin_register(request):
         if User.objects.filter(username=username).exists():
             messages.error(request,"Username already exists.")
         if password == password2 and not User.objects.filter(username=username).exists():
-            obj = User(username=username, email=email, password=password)
+            obj = User.objects.create_user(username=username, email=email, password=password)
             obj.save()
         return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
@@ -115,6 +115,12 @@ def profile_view(request):
     doc = User_type.objects.all()
     d = {'doc': doc} 
     return render(request,'users/profile.html', d)
+
+
+def delete_profile(request,pid):
+    doc_del = User_type.objects.get(id=pid)
+    doc_del.delete()
+    return redirect('profile_view')
 
 
  
