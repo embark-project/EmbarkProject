@@ -1,0 +1,42 @@
+{% include 'users/home.html' %}
+
+{% block content %}
+<center>
+
+<html>
+<title>
+    Profile
+</title>
+    <head>
+       
+    </head>
+    <body>  
+        <div>
+            <br>
+            
+            <h2 class="text-center"> My Profile</h2>
+                <table id="example" class="table table-hover"> 
+                    <thead>
+                        <tr>
+                           
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in doc %}
+                      <tr>
+                          <td>{{i.username}}</td>
+                          <td>{{i.password}}</td>
+                          <td>{{i.email}}</td>
+                          <td>{{i.phone}}</td>
+                          <td>{{i.quantity}}</td></tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+            
+        </div>
+    </body>
+</html>
+
+</center> 
+{% endblock %}

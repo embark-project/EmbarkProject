@@ -1,0 +1,21 @@
+
+{% include 'users/home.html' %}
+
+{% block content %}
+<center>
+  <br>
+  <h2>Login</h2>
+  <br>
+      <form method="post">
+      {% csrf_token %}
+      <table>
+        {{ form.as_p }}
+        <tr>
+          <td>&nbsp;</td>
+        </tr>         
+      </table>
+      <input class="btn btn-primary" type="Submit" value="Submit">
+    </form>
+    
+</center> 
+{% endblock %}
