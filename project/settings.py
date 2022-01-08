@@ -102,6 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ 
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -127,4 +128,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
 
-
+AUTH_USER_MODEL = "app.User_type" 
+ 
+LOGIN_REDIRECT_URL = '/mod_home/'
+LOGOUT_REDIRECT_URL = '/mod_login/'
