@@ -1,0 +1,17 @@
+{% include 'users/moderators/mod_navbar.html' %}
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+    <h1 class="text-center">Add Requirements</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Category</label>
+        <input type="text" class="form-control" name="category">
+        <label>Product</label>
+        <input type="text" class="form-control" name="product">
+        <br>
+        <input type="submit" value="Post" class="form-control btn btn-primary">
+    </form>
+
+</div>
+
+{% endblock content %}

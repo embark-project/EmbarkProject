@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User_type 
+from .models import User_type, Req, Order 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .forms import Admin_Form, Mod_Form, User_Form
 
@@ -23,3 +23,6 @@ class MyUserAdmin(UserAdmin):
 
 
 admin.site.register(User_type, MyUserAdmin) 
+admin.site.register(Req) 
+admin.site.register(Order) 
+

@@ -19,4 +19,26 @@ class User_type(AbstractUser):
         return f'{self.username} registered as {self.role} '
   
 
+class Req(models.Model):
+    category = models.CharField(max_length=40)
+    product = models.CharField(max_length=10)
+   
+    class Meta:
+      db_table = "Req"
+      
+
+    def __str__(self):
+        return f'{self.category} and {self.product} '
+
+class Order(models.Model):
+    category = models.CharField(max_length=40)
+    product = models.CharField(max_length=10)
+
+
+    def __str__(self):
+        return f'Need {self.product} under {self.category} '
+
+   
+
+     
 

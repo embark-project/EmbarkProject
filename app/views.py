@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate
-from django.contrib.auth import logout
+from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 from .forms import Admin_Form, Mod_Form, User_Form
-from .models import User_type 
+from .models import User_type, Req, Order 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
@@ -26,13 +26,12 @@ def admin_register(request):
         password = request.POST.get('password1', '')
         password2 = request.POST.get('password2','')
         role = 0
-        if User.objects.filter(username=username).exists():
+        if User_type.objects.filter(username=username).exists():
             messages.error(request,"Username already exists.")
         if password == password2 and not User_type.objects.filter(username=username).exists():
-            obj = User.objects.create_user(username=username, email=email, password=password,
-             role='admin')
+            obj = User_type.objects.create_user(username=username, email=email, password=password,
+             role='admin',is_staff='True',is_superuser='True')
             user = obj.save()
-            login(request, user)
         return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
@@ -72,7 +71,6 @@ def user_register(request):
             obj = User_type.objects.create_user(username=username, email=email, password=password, 
                 address=address, phone=phone, role='user')
             user = obj.save()
-            login(request, user)
             return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
@@ -86,7 +84,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_staff and user.is_active and user.is_superuser:
                 auth_login(request, user)
-                return redirect('index')
+                return redirect('admin_home')
             elif user is not None and user.is_staff and user.is_active :
                 auth_login(request, user)
                 return redirect('mod_home')
@@ -103,7 +101,11 @@ def login(request):
     return render(request, 'users/login.html', {'form': form, 'msg': msg})
 
 def logout(request):
+    auth_logout(request)
     return redirect('login')
+
+def admin_home(request):
+    return render(request,"users/admin/admin_home.html")
 
 def mod_home(request):
     return render(request,"users/moderators/mod_home.html")
@@ -121,5 +123,45 @@ def delete_profile(request,pid):
     doc_del.delete()
     return redirect('profile_view')
 
-def requirements_view(request):
-    return render(request, 'users/endusers/requirements.html')
+@login_required
+def post_requirements(request):
+    if request.method == 'POST':
+        cat = request.POST['category']
+        prod = request.POST['product']
+        obj = Req(category=cat, product=prod)
+        obj.save()
+        messages.success(request,"New things are posted. Check it out")
+             
+    return render(request, 'users/admin/post_requirements.html')
+
+@login_required
+def view_requirements(request):
+    error = ""
+    if request.method == "POST":
+        cat = request.POST['category']
+        p = request.POST['product']
+
+        try:
+            Req.objects.create(category=cat, product=p)
+            error="no"
+            
+        except:
+            error = "yes"
+    d={'error' : error}
+    return render(request, 'users/moderators/view_requirements.html',d)
+
+@login_required
+def add_order(request):
+    if request.method == 'POST':
+
+        cat = request.POST['order_cat']
+        prod = request.POST['order_prod']
+        obj = Order(category=cat, product=prod)
+        obj.save()
+        messages.info(request,"Requirements needed")
+
+    d = {'order': Req.objects.all()}
+
+    return render(request, 'users/endusers/order.html',d)
+
+ 

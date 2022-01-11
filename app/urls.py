@@ -14,12 +14,16 @@ urlpatterns = [
     path('user_register/', views.user_register, name="user_register"),
     path('login/', views.login, name='login'),
     path('logout/',views.logout, name="logout"),
+    path('admin_home/', views.admin_home, name="admin_home"),
     path('mod_home/', views.mod_home, name="mod_home"),
     path('user_home/', views.user_home, name="user_home"),
     path('profile_view/', views.profile_view, name="profile_view"),
     path('delete_profile(<int:pid>)/', views.delete_profile, name='delete_profile'),
-    path('requirements_view/', views.requirements_view, name="requirements_view")
+    path('post_requirements', views.post_requirements, name="post_requirements"),
+    path('view_requirements/', views.view_requirements, name="view_requirements"),
+    path('add_order/', views.add_order, name="add_order")
 ]
+
 
 
 

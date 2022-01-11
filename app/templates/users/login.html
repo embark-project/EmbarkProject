@@ -1,20 +1,21 @@
 
 {% include 'users/home.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
-<center>
-  <br>
-  <h2>Login</h2>
-  <br>
+
+<center >
+  <br> <br>
+  <center><h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Login Form</h3></center>
+ 
       <form method="post">
       {% csrf_token %}
       <table>
-        {{ form.as_p }}
-        <tr>
-          <td>&nbsp;</td>
-        </tr>         
+        {{ form }}               
       </table>
-      <input class="btn btn-primary" type="Submit" value="Submit">
+      <br>
+      <input class="btn btn-success" type="Submit" value="Submit">
     </form>
     
 </center> 

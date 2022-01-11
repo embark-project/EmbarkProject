@@ -1,0 +1,31 @@
+{% include 'users/endusers/user_navbar.html' %}
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <h2 class="text-center">Place an Order</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Category </label>
+        <select name="order_cat" class="form-control">
+            {% for i in order %}
+            <option value="{{i.category}}">{{i.category}} </option>
+            {% endfor %}
+        </select>
+        <label>Product</label>
+        <select name="order_prod" class="form-control">
+            {% for i in order %}
+            <option value="{{i.product}}">{{i.product}} </option>
+            {% endfor %}
+        </select>
+        
+        <br>
+        <br>
+        
+        <input type="submit" value="Request" class="form-control btn btn-primary">
+    </form>
+
+</div>
+
+{% endblock content %}
