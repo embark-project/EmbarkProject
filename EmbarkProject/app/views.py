@@ -1,20 +1,32 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate
-from django.contrib.auth import logout
+from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, auth
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.http import HttpResponse
 from .forms import Admin_Form, Mod_Form, User_Form
-from .models import User_type, Req
+from .models import User_type, Req, Order 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login
-
+from django.urls import reverse_lazy
+from django.views import generic
 
 choices = [0,1,2]
 # Create your views here.
+class UserEditView(generic.UpdateView):
+    form_class = UserChangeForm
+    template_name = "users/edit_profile.html"
+    success_url = reverse_lazy('profile_view')
+
+    def get_object(self):
+        return self.request.user
+
+def edit_profile(request):
+    return render(request,"users/edit_profile.html")
+
 def index(request):
     return render(request,"users/index.html")
 
@@ -26,13 +38,12 @@ def admin_register(request):
         password = request.POST.get('password1', '')
         password2 = request.POST.get('password2','')
         role = 0
-        if User.objects.filter(username=username).exists():
+        if User_type.objects.filter(username=username).exists():
             messages.error(request,"Username already exists.")
         if password == password2 and not User_type.objects.filter(username=username).exists():
-            obj = User.objects.create_user(username=username, email=email, password=password,
-             role='admin')
+            obj = User_type.objects.create_user(username=username, email=email, password=password,
+             role='admin',is_staff='True',is_superuser='True')
             user = obj.save()
-            login(request, user)
         return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
@@ -85,7 +96,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_staff and user.is_active and user.is_superuser:
                 auth_login(request, user)
-                return redirect('index')
+                return redirect('admin_home')
             elif user is not None and user.is_staff and user.is_active :
                 auth_login(request, user)
                 return redirect('mod_home')
@@ -102,7 +113,11 @@ def login(request):
     return render(request, 'users/login.html', {'form': form, 'msg': msg})
 
 def logout(request):
+    auth_logout(request)
     return redirect('login')
+
+def admin_home(request):
+    return render(request,"users/admin/admin_home.html")
 
 def mod_home(request):
     return render(request,"users/moderators/mod_home.html")
@@ -120,11 +135,20 @@ def delete_profile(request,pid):
     doc_del.delete()
     return redirect('profile_view')
 
+@login_required
+def post_requirements(request):
+    if request.method == 'POST':
+        cat = request.POST['category']
+        prod = request.POST['product']
+        obj = Req(category=cat, product=prod)
+        obj.save()
+        messages.success(request,"New things are posted. Check it out")
+             
+    return render(request, 'users/admin/post_requirements.html')
 
 @login_required
-def requirements_view(request):
+def view_requirements(request):
     error = ""
-
     if request.method == "POST":
         cat = request.POST['category']
         p = request.POST['product']
@@ -136,30 +160,20 @@ def requirements_view(request):
         except:
             error = "yes"
     d={'error' : error}
-    return render(request, 'users/endusers/requirements.html',d)
+    return render(request, 'users/moderators/view_requirements.html',d)
 
-
-
+@login_required
 def add_order(request):
-    error = ""
-    order1 = Req.objects.all()
+    if request.method == 'POST':
 
-    if request.method == "POST":
-        c = request.POST['category']
-        p = request.POST['product']
-        da = request.POST['date']
-        order = Req.objects.filter(category=c, product=p).first()
+        cat = request.POST['order_cat']
+        prod = request.POST['order_prod']
+        obj = Order(category=cat, product=prod)
+        obj.save()
+        messages.info(request,"Requirements needed")
 
-        try:
-            Req.objects.create(Order=order,  date=da)
-            #Appointment.objects.create(Doctor=doctor, Patient=patient, date=da, time=t)
-            #Appointment.objects.create(doctor=n, patient=p, date=da, time=t)
-            
-            error = 'no'
-        except:
-            error = 'yes'
+    d = {'order': Req.objects.all()}
 
-    d = {'order': order1,  'error': error}
-    return render(request, 'users/order.html',d)
+    return render(request, 'users/endusers/order.html',d)
 
-
+ 

@@ -1,0 +1,74 @@
+{% include 'users/navbar.html' %}
+
+{% load crispy_forms_tags %}  
+{% block content %}
+<center>
+<html>
+<title>
+    Profile
+</title>
+    <head>
+       <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+</style>
+    </head>
+    <body>  
+        <div>
+            <br>
+            
+            <h2 class="text-center"> {{ user.username }} profile</h2><br>
+                <table style="width:50%" id="example" class="table table-hover">
+                    <thead>
+                        <tr>
+                          <th>Name</th>
+                          <td>{{user.username}}</td>
+                        </tr>
+                        <tr>
+                          <th>Email</th>
+                          <td>{{user.email}}</td>
+                        </tr>
+                        <tr>
+                          <th>Mobile</th>
+                          <td>{{user.phone}}</td>
+                        </tr>
+                        <tr>
+                          <th>Address</th>
+                          <td>{{user.address}}</td>
+                        </tr>
+                        <tr>
+                          <th>Date joined</th>
+                          <td>{{user.date_joined}}</td>
+                        </tr>
+                          
+                         <!-- <td><a href="{% url 'delete_profile' user.id  %}" 
+                            onclick="return confirm('Are you sure you want to delete?')" class="btn btn">Delete</a></td>
+                       -->
+                   
+                </table>
+            
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fielset class="form-group">
+            <legend class="border-bottom mb-4">Profile</legend>
+            {% csrf_token %}
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+          </fielset>  
+          <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+
+          </div>
+        </form>
+    </body>
+</html>
+
+</center> 
+{% endblock %}

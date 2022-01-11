@@ -17,8 +17,7 @@ class User_type(AbstractUser):
 
     def __str__(self):
         return f'{self.username} registered as {self.role} '
-
-
+  
 
 class Req(models.Model):
     category = models.CharField(max_length=40)
@@ -31,7 +30,15 @@ class Req(models.Model):
     def __str__(self):
         return f'{self.category} and {self.product} '
 
+class Order(models.Model):
+    category = models.CharField(max_length=40)
+    product = models.CharField(max_length=10)
 
-  
 
+    def __str__(self):
+        return f'Need {self.product} under {self.category} '
+
+   
+
+     
 

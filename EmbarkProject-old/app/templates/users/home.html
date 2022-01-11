@@ -13,19 +13,29 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="/requirements_view">Requirements</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="/add_order">Order</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="/profile_view">My Profile</a>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Signup
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" id='0' href="{% url 'admin_register' %}">Admin</a>
+              <a class="dropdown-item" id='1' href="{% url 'mod_register' %}">Moderator</a>
+              <a class="dropdown-item" id='2' href="{% url 'user_register' %}">User</a>
+            </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Login
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+              <a class="dropdown-item" href="{% url 'login' %}">Moderator</a>
+              <a class="dropdown-item" href="{% url 'login' %}">User</a>
+            </div>
           </li>
-           
+          </ul>
       </div>
     </div>
   </nav>

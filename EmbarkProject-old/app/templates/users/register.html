@@ -1,0 +1,37 @@
+
+{% include 'users/home.html' %}
+
+{% load crispy_forms_tags %}         
+
+{% block content %}
+
+<center><h2>Registeration</h2></center>
+<div class="container py-5">
+<form method="POST">
+{% for choice in choices %}
+
+{% if choice == 0 %}
+	
+		{% csrf_token %}
+		{{ Admin_Form|crispy }}     
+
+{% elif choice == 1 %}
+	
+		{% csrf_token %}
+		{{ Mod_Form|crispy }}         
+		
+{% else %}
+	
+		{% csrf_token %}
+		{{ User_Form|crispy }} 
+		                  
+{% endif %}
+
+{% endfor %}
+<br>
+<input class="btn btn-primary" type="Submit" value="Submit"> 
+</form>
+<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+
+
+{% if request.user.is_active %}
+
+    {% include 'users/endusers/user_navbar.html' %}
+
+{% endif %}
+
+{% load crispy_forms_tags %}         
+{% block title %} {% endblock %} 
+{% block content %}
+<center>
+<h1> 
+    Edit Profile
+</h1>
+<br>
+<br>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+       {{form.as_p}}
+       <button class="btn btn-secondary">Update Profile
+       </button>
+    </div>
+</center>    
+{% endblock %}
