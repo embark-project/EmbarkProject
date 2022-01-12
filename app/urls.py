@@ -18,10 +18,14 @@ urlpatterns = [
     path('mod_home/', views.mod_home, name="mod_home"),
     path('user_home/', views.user_home, name="user_home"),
     path('profile_view/', views.profile_view, name="profile_view"),
-    path('edit_profile/',views.edit_profile, name='edit_profile'),
-    path('delete_profile(<int:pid>)/', views.delete_profile, name='delete_profile'),
+    path('edit_profile/',views.edit_profile, name='edit_profile'), 
     path('post_requirements', views.post_requirements, name="post_requirements"),
-    path('view_requirements/', views.view_requirements, name="view_requirements"),
+    path('view_requirements/', views.view_requirements, name="view_requirements"), 
+    path('approval_requirements/', views.approval_requirements, name="approval_requirements"),
+    path('approve/', views.approve, name="approve"),
+    path('decline/', views.decline, name="decline"),
+    path('approved/<str:order_id>', views.approved, name="approved"),
+    path('declined/<str:order_id>', views.declined, name="declined"),
     path('add_order/', views.add_order, name="add_order")
 ]
 

@@ -2,6 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script>
 function myFunction() {
   var myobj = document.getElementById("msg");
@@ -44,7 +45,7 @@ function myFunction() {
             <a class="nav-link" href="/profile_view">My Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
+            <a class="nav-link" onclick="alert('Logged-Out successfully')" href="/logout">Logout</a>
           </li>
            
       </div>

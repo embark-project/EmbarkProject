@@ -5,14 +5,14 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import Admin_Form, Mod_Form, User_Form, EditProfileForm
 from .models import User_type, Req, Order 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login 
 from django.urls import reverse_lazy
-from django.views import generic
+from django.urls import reverse
 
 
 choices = [0,1,2]
@@ -118,13 +118,8 @@ def user_home(request):
 @login_required
 def profile_view(request):
     return render(request, 'users/profile.html')
-
-
-def delete_profile(request,pid):
-    doc_del = User_type.objects.get(id=pid)
-    doc_del.delete()
-    return redirect('profile_view')
-
+ 
+@login_required
 def edit_profile(request):
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
@@ -149,22 +144,49 @@ def post_requirements(request):
     return render(request, 'users/admin/post_requirements.html')
 
 @login_required
+def approval_requirements(request):
+    d = {'order': Order.objects.filter(approved_status=1)}
+    
+    return render(request, 'users/admin/approval_requirements.html',d)
+
+@login_required
 def view_requirements(request):
     d = {'order': Order.objects.all()}
     messages.info(request,"User posted a new requirement. Waiting for your approval")
     return render(request, 'users/moderators/view_requirements.html',d)
 
 @login_required
+def approve(request):
+    pass
+
+@login_required
+def decline(request):
+    pass
+
+@login_required
+def approved(request,order_id):
+    t = Order.objects.get(order_id=order_id)
+    t.approved_status = 1
+    t.save() 
+    messages.info(request,"Request approved")
+    return HttpResponseRedirect(reverse('view_requirements'))
+
+@login_required
+def declined(request,order_id):
+    t = Order.objects.get(order_id=order_id)
+    t.approved_status = 2
+    t.save()
+    messages.info(request,"Request Declined")
+    return HttpResponseRedirect(reverse('view_requirements'))
+
+@login_required
 def add_order(request):
     if request.method == 'POST':
-
         cat = request.POST['order_cat']
         prod = request.POST['order_prod']
         obj = Order(category=cat, product=prod)
         obj.save()
         messages.success(request,"New things are posted. Check it out")
-        
-
     d = {'order': Req.objects.all()}
 
     return render(request, 'users/endusers/order.html',d)

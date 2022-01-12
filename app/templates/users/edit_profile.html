@@ -14,8 +14,10 @@
 {% elif request.user.is_active %}
 
     {% include 'users/endusers/user_navbar.html' %}
+    
 
 {% endif %}
+
 
 {% block content %}
 <br>
@@ -29,7 +31,10 @@
        {{ form }}
         </table>
         <br><br>
-      <button class="btn btn-secondary">Update Profile</button> 
+      <button class="btn btn-secondary" onclick="alert('Profile has been Updated')">Update Profile</button>
+      
     </form>
+
     </div> </center>
+    
 {% endblock %}

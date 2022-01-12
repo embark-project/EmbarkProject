@@ -31,29 +31,15 @@ class Req(models.Model):
         return f'Posted {self.product} under {self.category} '
 
 class Order(models.Model):
+    order_id = models.AutoField(primary_key=True)
     category = models.CharField(max_length=40)
     product = models.CharField(max_length=10)
-    is_approved = models.BooleanField(default=False) #hide
-
-
+    price= models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    approved_status = models.IntegerField(default=0) 
 
     def __str__(self):
-        return f'Need {self.product} under {self.category} '
+        return f'Need {self.product} under {self.category}.The determined price is {self.price}'
 
-    @property
-    def approve_leave(self):
-        if not self.is_approved:
-            self.is_approved = True
-            self.status = 'approved'
-            self.save()
-
-    @property
-    def decline(self):
-        if self.is_approved or not self.is_approved:
-            self.is_approved = False
-            self.status = 'declined'
-            self.save()
- 
 
 
    

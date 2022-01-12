@@ -3,11 +3,11 @@
 {% block content %}
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>MODERATOR</title>
+    <meta charset="utf-8">
+    <title>MODERATOR</title>
 </head>
 <body>
-	<div class="container">
+    <div class="container">
      
     {% if user.is_authenticated %}
     Hi Moderator
@@ -19,6 +19,7 @@
     </div>
     {% endif %}
     </div>
+    <script> swal("You are logged in as Moderator!"); </script>
 </body>
 </html>
 
