@@ -1,26 +1,40 @@
 
+{% load crispy_forms_tags %}  
 
-{% if request.user.is_active %}
+{% load bootstrap %}
+
+{% if request.user.is_superuser %}
+
+    {% include 'users/admin/admin_navbar.html' %}
+
+{% elif request.user.is_staff %}
+
+    {% include 'users/moderators/mod_navbar.html' %}
+
+{% elif request.user.is_active %}
 
     {% include 'users/endusers/user_navbar.html' %}
+    
 
 {% endif %}
 
-{% load crispy_forms_tags %}         
-{% block title %} {% endblock %} 
+
 {% block content %}
-<center>
-<h1> 
-    Edit Profile
-</h1>
 <br>
+<center>
+<h2 class="text-center">Edit profile</h2><br>
 <br>
 <div class="form-group">
     <form method="POST">
-        {% csrf_token %}
-       {{form.as_p}}
-       <button class="btn btn-secondary">Update Profile
-       </button>
-    </div>
-</center>    
+       {% csrf_token %}
+       <table>
+       {{ form }}
+        </table>
+        <br><br>
+      <button class="btn btn-secondary" onclick="alert('Profile has been Updated')">Update Profile</button>
+      
+    </form>
+
+    </div> </center>
+    
 {% endblock %}

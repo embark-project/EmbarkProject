@@ -6,27 +6,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.http import HttpResponse
-from .forms import Admin_Form, Mod_Form, User_Form
+from .forms import Admin_Form, Mod_Form, User_Form, EditProfileForm
 from .models import User_type, Req, Order 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login 
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib import messages
 
 choices = [0,1,2]
 # Create your views here.
-class UserEditView(generic.UpdateView):
-    form_class = UserChangeForm
-    template_name = "users/edit_profile.html"
-    success_url = reverse_lazy('profile_view')
-
-    def get_object(self):
-        return self.request.user
-
-def edit_profile(request):
-    return render(request,"users/edit_profile.html")
-
 def index(request):
     return render(request,"users/index.html")
 
@@ -83,6 +73,7 @@ def user_register(request):
             obj = User_type.objects.create_user(username=username, email=email, password=password, 
                 address=address, phone=phone, role='user')
             user = obj.save()
+            messages.success(request, 'Your profile is created')
             return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
@@ -135,6 +126,20 @@ def delete_profile(request,pid):
     doc_del.delete()
     return redirect('profile_view')
 
+def edit_profile(request):
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            
+            messages.success(request, 'Your profile is updated')
+            return redirect('profile_view')
+    form = EditProfileForm(instance=request.user)
+    args = {'form':form}
+    return render(request,"users/edit_profile.html",args)
+
+
 @login_required
 def post_requirements(request):
     if request.method == 'POST':
@@ -142,24 +147,14 @@ def post_requirements(request):
         prod = request.POST['product']
         obj = Req(category=cat, product=prod)
         obj.save()
-        messages.success(request,"New things are posted. Check it out")
+        messages.info(request,"Requirements needed")
              
     return render(request, 'users/admin/post_requirements.html')
 
 @login_required
 def view_requirements(request):
-    error = ""
-    if request.method == "POST":
-        cat = request.POST['category']
-        p = request.POST['product']
-
-        try:
-            Req.objects.create(category=cat, product=p)
-            error="no"
-            
-        except:
-            error = "yes"
-    d={'error' : error}
+    d = {'order': Order.objects.all()}
+    messages.info(request,"User posted a new requirement. Waiting for your approval")
     return render(request, 'users/moderators/view_requirements.html',d)
 
 @login_required
@@ -170,7 +165,8 @@ def add_order(request):
         prod = request.POST['order_prod']
         obj = Order(category=cat, product=prod)
         obj.save()
-        messages.info(request,"Requirements needed")
+        messages.success(request,"New things are posted. Check it out")
+        
 
     d = {'order': Req.objects.all()}
 
