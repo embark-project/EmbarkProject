@@ -4,13 +4,15 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User, auth
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
 from django.http import HttpResponse
-from .forms import Admin_Form, Mod_Form, User_Form
+from .forms import Admin_Form, Mod_Form, User_Form, EditProfileForm
 from .models import User_type, Req, Order 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login 
+from django.urls import reverse_lazy
+from django.views import generic
 
 
 choices = [0,1,2]
@@ -123,6 +125,18 @@ def delete_profile(request,pid):
     doc_del.delete()
     return redirect('profile_view')
 
+def edit_profile(request):
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view')
+    form = EditProfileForm(instance=request.user)
+    args = {'form':form}
+    return render(request,"users/edit_profile.html",args)
+
+
 @login_required
 def post_requirements(request):
     if request.method == 'POST':
@@ -130,24 +144,14 @@ def post_requirements(request):
         prod = request.POST['product']
         obj = Req(category=cat, product=prod)
         obj.save()
-        messages.success(request,"New things are posted. Check it out")
+        messages.info(request,"Requirements needed")
              
     return render(request, 'users/admin/post_requirements.html')
 
 @login_required
 def view_requirements(request):
-    error = ""
-    if request.method == "POST":
-        cat = request.POST['category']
-        p = request.POST['product']
-
-        try:
-            Req.objects.create(category=cat, product=p)
-            error="no"
-            
-        except:
-            error = "yes"
-    d={'error' : error}
+    d = {'order': Order.objects.all()}
+    messages.info(request,"User posted a new requirement. Waiting for your approval")
     return render(request, 'users/moderators/view_requirements.html',d)
 
 @login_required
@@ -158,7 +162,8 @@ def add_order(request):
         prod = request.POST['order_prod']
         obj = Order(category=cat, product=prod)
         obj.save()
-        messages.info(request,"Requirements needed")
+        messages.success(request,"New things are posted. Check it out")
+        
 
     d = {'order': Req.objects.all()}
 

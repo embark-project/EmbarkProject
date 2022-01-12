@@ -13,7 +13,6 @@
 
 {% endif %}
 
-
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -54,8 +53,10 @@
                         <tr>
                           <th>Date joined</th>
                           <td>{{user.date_joined}}</td>
-                        </tr>                   
+                        </tr> 
+                        </thead>                  
                 </table>
+                <br> <a class="btn btn-secondary" href="/edit_profile">Edit Profile</a>
         </div>
     </body>
 </html>

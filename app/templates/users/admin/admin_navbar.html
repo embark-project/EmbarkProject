@@ -2,15 +2,12 @@
 <html>
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-   <script type="text/javascript">
-  
-    $(document).ready(function() {
-        // messages timeout for 10 sec 
-        setTimeout(function() {
-            $('.message').fadeOut('slow');
-        }, 1000); 
-    });
-  </script>
+   <script>
+function myFunction() {
+  var myobj = document.getElementById("msg");
+  myobj.remove();
+}
+</script>
 </head>
 <body>
 
@@ -32,9 +29,10 @@
                     <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
 
                           <div class="message">
-                            <a class="dropdown-item waves-effect waves-light">
-                            {% include 'users/endusers/user_messages.html' %}
+                            <a class="dropdown-item waves-effect waves-light" id='msg'>
+                             {% include 'users/messages.html' %}
                             </a>
+                            <button onclick="myFunction()">&times;</button>
                           </div>
                     </div>
                   </li>

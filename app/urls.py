@@ -3,7 +3,7 @@ from django.urls import path, include
 from app import views
 from django.contrib.auth import views as auth_views
 from .views import index, login
-from .views import admin_register, mod_register, user_register
+from .views import admin_register, mod_register, user_register, edit_profile
 
 admin.autodiscover()
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('mod_home/', views.mod_home, name="mod_home"),
     path('user_home/', views.user_home, name="user_home"),
     path('profile_view/', views.profile_view, name="profile_view"),
+    path('edit_profile/',views.edit_profile, name='edit_profile'),
     path('delete_profile(<int:pid>)/', views.delete_profile, name='delete_profile'),
     path('post_requirements', views.post_requirements, name="post_requirements"),
     path('view_requirements/', views.view_requirements, name="view_requirements"),
