@@ -39,7 +39,7 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Need {self.product} under {self.category}.The determined price is {self.price}'
-
+        #return self.order_id
 
 
    

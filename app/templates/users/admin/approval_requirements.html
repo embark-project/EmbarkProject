@@ -14,8 +14,13 @@ td, th {
 tr{
    background-color: #96D4D4;
 }
- 
 </style>
+<script>
+function myFunction() {
+  var myobj = document.getElementById("record");
+  myobj.remove();
+}
+</script>
 <div class="container">
     <br><br>
     <center>
@@ -30,16 +35,18 @@ tr{
                 </tr>
 
                 {% for i in order %}
-                <tr> 
-                    <td>{{i.category}}</td>
+                <tr id="record"> 
+                    <td >{{i.category}}</td>
                     <td>{{i.product}}</td>
-                    <td><input type="text" name="price"></td>
+                    <td><input type="text" name="price" value="{{ i.price }}">
+                    <button onclick="myFunction()">&times;</button></td>
                 </tr>
+                <input type="hidden" name="order_id" value="{{ i.order_id }}">
                 {% endfor %}
-        </table><br>
+        </table>
+        <br>
         <br>    
-          <input type="submit" name="submit">
-          <input type="submit" name="delete" value="Delete">
+          <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Price Updated')">Submit</button>
     </form>
     </center>
 

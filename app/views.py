@@ -144,12 +144,6 @@ def post_requirements(request):
     return render(request, 'users/admin/post_requirements.html')
 
 @login_required
-def approval_requirements(request):
-    d = {'order': Order.objects.filter(approved_status=1)}
-    
-    return render(request, 'users/admin/approval_requirements.html',d)
-
-@login_required
 def view_requirements(request):
     d = {'order': Order.objects.all()}
     messages.info(request,"User posted a new requirement. Waiting for your approval")
@@ -180,6 +174,17 @@ def declined(request,order_id):
     return HttpResponseRedirect(reverse('view_requirements'))
 
 @login_required
+def approval_requirements(request):
+    d = {'order': Order.objects.filter(approved_status=1)}
+    order_ids = request.POST.getlist("order_id")
+    price = request.POST.getlist("price")
+    pending = {'order': Order.objects.filter(price=0, approved_status=1)}
+    for i in range(len(order_ids)):
+        Order.objects.filter(order_id=order_ids[i]).update(price=price[i])
+    
+    return render(request, 'users/admin/approval_requirements.html',pending)
+
+@login_required
 def add_order(request):
     if request.method == 'POST':
         cat = request.POST['order_cat']
@@ -192,3 +197,6 @@ def add_order(request):
     return render(request, 'users/endusers/order.html',d)
 
  
+@login_required
+def view_offer(request):
+    return render(request, 'users/endusers/offer.html')
