@@ -7,9 +7,11 @@
     <form method="POST">
         {% csrf_token %}
         <label>Category</label>
-        <input type="text" class="form-control" name="category" required>
+        <input type="text" class="form-control" name="category" required> 
         <label>Product</label>
         <input type="text" class="form-control" name="product" required>
+        <label>Quantity</label>
+        <input type="text" class="form-control" name="qunatity" required>
         <br>
         <input type="submit" onclick="alert('Requirements Posted')" value="POST" class="form-control btn btn-primary">
         

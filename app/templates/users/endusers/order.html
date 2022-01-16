@@ -1,6 +1,14 @@
 {% include 'users/endusers/user_navbar.html' %}
 
 {% block content %}
+<script type="text/javascript">
+$(function(){
+    var $select = $(".1-100");
+    for (i=1;i<=100;i++){
+        $select.append($('<option></option>').val(i).html(i))
+    }
+});
+</script>
 
 <div class="container">
     <br>
@@ -18,8 +26,9 @@
             {% for i in order %}
             <option value="{{i.product}}">{{i.product}} </option>
             {% endfor %}
-        </select>
-        
+        </select><br>
+        <label>Quantity</label>
+        <select class="1-100" name="order_quan"></select>
         <br>
         <br>
         

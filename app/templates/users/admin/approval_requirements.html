@@ -31,6 +31,7 @@ function myFunction() {
                 <tr> 
                     <th>Category</th>
                     <th>Product</th> 
+                    <th>Quantity</th> 
                     <th>Price</th>
                 </tr>
 
@@ -38,15 +39,16 @@ function myFunction() {
                 <tr id="record"> 
                     <td >{{i.category}}</td>
                     <td>{{i.product}}</td>
+                    <td>{{i.quantity}}</td>
                     <td><input type="text" name="price" value="{{ i.price }}">
-                    <button onclick="myFunction()">&times;</button></td>
+                    <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Price Updated')">Submit</button></td>
                 </tr>
                 <input type="hidden" name="order_id" value="{{ i.order_id }}">
                 {% endfor %}
         </table>
         <br>
         <br>    
-          <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Price Updated')">Submit</button>
+          
     </form>
     </center>
 

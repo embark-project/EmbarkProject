@@ -10,7 +10,7 @@
     <div class="container">
      
     {% if user.is_authenticated %}
-    Hi Moderator
+    Hi {{ request.user.username }}
      
     {% else %}
     <div class="row">

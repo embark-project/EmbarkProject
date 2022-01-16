@@ -14,6 +14,12 @@ class Admin_Form(UserCreationForm):
         model = User_type
         fields = ("username", "email", "password1", "password2")
 
+        help_texts = {
+            'username': None,
+            'password1': None,
+            'password2': None,
+        }
+
 class Mod_Form(UserCreationForm):
     email = forms.EmailField(required=True)
     address = forms.CharField(required=True)
@@ -21,7 +27,12 @@ class Mod_Form(UserCreationForm):
     class Meta:
         model = User_type
         fields = ("username", "email", "password1", "password2","address")
- 
+
+        help_texts = {
+            'username': None,
+            'password1': None,
+            'password2': None,
+        }
 
 class User_Form(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -31,6 +42,12 @@ class User_Form(UserCreationForm):
     class Meta:
         model = User_type
         fields = ("username", "email", "password1", "password2","address", "phone")
+
+        help_texts = {
+            'username': None,
+            'password1': None,
+            'password2': None,
+        }
 
 class EditProfileForm(UserChangeForm):
     password = None

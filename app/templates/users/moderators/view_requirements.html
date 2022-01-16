@@ -27,6 +27,7 @@ tr{
                     <th>ID</th>
                     <th>Category</th>
                     <th>Product</th>
+                    <th>Qunatity</th>
                     <th>Approval Status</th>
                 </tr>
 
@@ -35,6 +36,7 @@ tr{
                     <td>{{i.order_id}}</td>
                     <td>{{i.category}}</td>
                     <td>{{i.product}}</td>
+                    <td>{{i.quantity}}</td>
                     <td>
                     {% if i.approved_status == 0 %}
                     <a href="{% url 'approved' order_id=i.order_id %}" name="approve" class="btn btn-warning">Approve</a>

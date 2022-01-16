@@ -34,7 +34,8 @@ def admin_register(request):
             obj = User_type.objects.create_user(username=username, email=email, password=password,
              role='admin',is_staff='True',is_superuser='True')
             user = obj.save()
-        return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
+            form = Admin_Form()
+            return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Admin_Form':form, "choices":choices})
 
@@ -53,6 +54,7 @@ def mod_register(request):
             obj = User_type.objects.create_user(username=username, email=email, password=password, 
                 address=address, role='moderator',is_staff='True')
             user = obj.save()
+            form = Mod_Form()
             return render(request, 'users/register.html', {'Mod_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'Mod_Form':form, "choices":choices})
@@ -73,6 +75,7 @@ def user_register(request):
             obj = User_type.objects.create_user(username=username, email=email, password=password, 
                 address=address, phone=phone, role='user')
             user = obj.save()
+            form = User_Form()
             return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
 
     return render(request, 'users/register.html', {'User_Form':form, "choices":choices})
@@ -137,7 +140,8 @@ def post_requirements(request):
     if request.method == 'POST':
         cat = request.POST['category']
         prod = request.POST['product']
-        obj = Req(category=cat, product=prod)
+        quan = request.POST['quantity']
+        obj = Req(category=cat, product=prod, qunatity=quan)
         obj.save()
         messages.info(request,"Requirements needed")
              
@@ -189,7 +193,8 @@ def add_order(request):
     if request.method == 'POST':
         cat = request.POST['order_cat']
         prod = request.POST['order_prod']
-        obj = Order(category=cat, product=prod)
+        quan = request.POST['order_quan']
+        obj = Order(category=cat, product=prod, quantity=quan)
         obj.save()
         messages.success(request,"New things are posted. Check it out")
     d = {'order': Req.objects.all()}
@@ -199,4 +204,5 @@ def add_order(request):
  
 @login_required
 def view_offer(request):
-    return render(request, 'users/endusers/offer.html')
+    d = {'order': Order.objects.filter(approved_status=1)}
+    return render(request, 'users/endusers/offer.html',d)
