@@ -1,0 +1,74 @@
+{% include 'users/admin/admin_navbar.html' %}
+{% block content %}
+<style>
+table {
+  font-family: arial, sans-serif;
+  width: 60%;
+}
+thead{
+    background-color: #3a96ba;
+}
+tbody
+{ 
+   background-color: #fff;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px 90px 10px 10px; 
+}
+ 
+</style>
+<script>
+function myFunction() {
+  var myobj = document.getElementById("record");
+  myobj.remove();
+}
+</script>
+<div class="container">
+    <br><br>
+    <center>
+    <h2 class="text-center">Approved Requirements</h2><br>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr> 
+                    <th>Category</th>
+                    <th>Product</th> 
+                    <th>Quantity</th> 
+                    <th>Status</th>
+                    <th>Acknowledgement/Reason</th>
+                </tr>
+            </thead>
+            {% for i in order %}
+            <tbody>
+                <tr id="record"> 
+                    <td>{{i.category}}</td>
+                    <td>{{i.product}}</td>
+                    <td>{{i.quantity}}</td>
+                    <td>
+                    {% if i.approved_status == 1 %}
+                        Approved
+                    {% elif i.approved_status == 2  %}
+                        Rejected
+                    {% elif i.approved_status == 0  %}
+                        Not yet approved/rejected
+                    {% endif %}</td>
+
+                    <td>{{i.reason}}</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+                 
+                
+        </table>
+        <br>
+        <br>    
+          
+    </form>
+    </center>
+
+</div>
+
+{% endblock content %}

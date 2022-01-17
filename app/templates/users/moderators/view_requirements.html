@@ -15,7 +15,7 @@ tbody
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 10px; 
+  padding: 10px 20px 10px 10px;  
 }
 
  
@@ -34,6 +34,7 @@ td, th {
                     <th>Product</th>
                     <th>Qunatity</th>
                     <th>Approval Status</th>
+                    <th>Reason</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,8 +53,11 @@ td, th {
                     {% else %}
                     <button name="decline" disabled=disabed class="btn btn-danger">Declined</button>
                     {% endif %}
-
-                </td>
+                    </td>
+                    <td>
+                    <input type="text" name="reason" value="{{ i.reason }}">
+                    <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Reason Updated')">Submit</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

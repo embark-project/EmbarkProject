@@ -134,6 +134,10 @@ def edit_profile(request):
     args = {'form':form}
     return render(request,"users/edit_profile.html",args)
 
+@login_required
+def history(request):
+    d = {'order': Order.objects.all()}
+    return render(request, 'users/admin/history.html',d)
 
 @login_required
 def post_requirements(request):
@@ -149,6 +153,10 @@ def post_requirements(request):
 
 @login_required
 def view_requirements(request):
+    if request.method == 'POST':
+        reason = request.POST['reason']
+        obj = Order(reason=reason)
+        obj.save()
     d = {'order': Order.objects.all()}
     messages.info(request,"User posted a new requirement. Waiting for your approval")
     return render(request, 'users/moderators/view_requirements.html',d)

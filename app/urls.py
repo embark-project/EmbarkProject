@@ -20,6 +20,7 @@ urlpatterns = [
     path('profile_view/', views.profile_view, name="profile_view"),
     path('edit_profile/',views.edit_profile, name='edit_profile'), 
     path('post_requirements', views.post_requirements, name="post_requirements"),
+    path('history', views.history, name="history"),
     path('view_requirements/', views.view_requirements, name="view_requirements"), 
     path('approval_requirements/', views.approval_requirements, name="approval_requirements"),
     path('approve/', views.approve, name="approve"),

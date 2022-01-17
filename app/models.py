@@ -40,6 +40,7 @@ class Order(models.Model):
     quantity = models.IntegerField(choices=INTEGER_CHOICES)
     price= models.DecimalField(max_digits=10, decimal_places=2, default=0)
     approved_status = models.IntegerField(default=0) 
+    reason = models.CharField(max_length=70)
 
     def __str__(self):
         return f'Need {self.quantity} {self.product} under {self.category}.The determined price is {self.price}'
