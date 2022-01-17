@@ -5,13 +5,14 @@
 <head>
     <meta charset="utf-8">
     <title>ADMIN</title>
+
 </head>
 <body>
     <div class="container">
-     
+    <h1>
     {% if user.is_authenticated %}
-    Hi Admin
-     
+    Hi {{user.username}}
+    </h1>
     {% else %}
     <div class="row">
         <p class="col-md-3">You are not logged in</p>

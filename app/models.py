@@ -24,7 +24,7 @@ class User_type(AbstractUser):
 class Req(models.Model):
     category = models.CharField(max_length=40)
     product = models.CharField(max_length=20)
-    quantity = models.IntegerField(choices=INTEGER_CHOICES)
+    quantity = models.IntegerField(default=0)
    
     class Meta:
       db_table = "Req"

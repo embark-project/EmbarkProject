@@ -5,15 +5,19 @@ table {
   font-family: arial, sans-serif;
   width: 60%;
 }
-
+thead{
+    background-color: #3a96ba;
+}
+tbody
+{ 
+   background-color: #fff;
+}
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 10px;
+  padding: 10px; 
 }
-tr{
-   background-color: #96D4D4;
-}
+ 
 </style>
 <script>
 function myFunction() {
@@ -28,21 +32,22 @@ function myFunction() {
     <form method="POST">
         {% csrf_token %}
         <table>
+            <thead>
                 <tr> 
                     <th>Category</th>
                     <th>Product</th> 
                     <th>Quantity</th> 
                     <th>Price</th>
                 </tr>
-
+            </thead>
                 {% for i in order %}
-                <tr id="record"> 
+            <tbody><tr id="record"> 
                     <td >{{i.category}}</td>
                     <td>{{i.product}}</td>
                     <td>{{i.quantity}}</td>
                     <td><input type="text" name="price" value="{{ i.price }}">
                     <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Price Updated')">Submit</button></td>
-                </tr>
+                </tr></tbody>
                 <input type="hidden" name="order_id" value="{{ i.order_id }}">
                 {% endfor %}
         </table>

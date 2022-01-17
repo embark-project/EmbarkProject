@@ -141,7 +141,7 @@ def post_requirements(request):
         cat = request.POST['category']
         prod = request.POST['product']
         quan = request.POST['quantity']
-        obj = Req(category=cat, product=prod, qunatity=quan)
+        obj = Req(category=cat, product=prod, quantity=quan)
         obj.save()
         messages.info(request,"Requirements needed")
              

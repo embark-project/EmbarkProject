@@ -7,15 +7,20 @@ table {
   font-family: arial, sans-serif;
   width: 60%;
 }
-
+thead{
+    background-color: #3a96ba;
+}
+tbody
+{ 
+   background-color: #fff;
+}
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 10px;
+  padding: 10px; 
 }
-tr{
-   background-color: #96D4D4;
-}
+
+ 
 </style>
 <script>
 function myFunction() {
@@ -26,23 +31,27 @@ function myFunction() {
 <div class="container">
     <br><br>
     <center>
-    <h2 class="text-center">Approved Requirements</h2><br>
+    <h2 class="text-center">Your offers</h2><br>
     <form method="POST">
         {% csrf_token %}
         <table>
+            <thead>
                 <tr> 
                     <th>Category</th>
-                    <th>Product</th> 
+                    <th>Product</th>
+                    <th>Quantity</th> 
                     <th>Price</th>
+                    <th>Wanna buy</th>
                 </tr>
-
+            </thead>
                 {% for i in order %}
-                <tr id="record"> 
+            <tbody><tr id="record"> 
                     <td >{{i.category}}</td>
                     <td>{{i.product}}</td>
-                    <td>{{i.price}} &nbsp;
-                    <button type="submit" value="Submit" class="btn btn-primary" onclick="confirm('Added to cart')">BUY</button></td>
-                </tr>
+                    <td>{{i.quantity}}</td>
+                    <td>{{i.price}}</td>
+                    <td><button type="submit" value="Submit" class="btn btn-primary" onclick="confirm('Added to cart')">BUY</button></td>
+                </tr></tbody>
                 <input type="hidden" name="order_id" value="{{ i.order_id }}">
                 {% endfor %}
         </table>
