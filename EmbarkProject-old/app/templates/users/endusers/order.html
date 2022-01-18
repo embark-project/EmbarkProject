@@ -3,15 +3,15 @@
 <br>
 
 <form name="form1" id="form1" action="#">
-    Category: <select name="subject" id="subject">
+    Category: <select name="category" id="category">
       <option value="" selected="selected">Select category</option>
     </select>
     <br><br>
-    Product: <select name="topic" id="topic">
+    Product: <select name="product" id="product">
       <option value="" selected="selected">Please select category first</option>
     </select>
     <br><br>
-    Quantity: <select name="chapter" id="chapter">
+    Quantity: <select name="quantity" id="quantity">
       <option value="" selected="selected">Please select category first</option>
     </select>
     <br><br>
@@ -19,7 +19,7 @@
   </form>
 
   <script>
-    var subjectObject = {
+    var myobj = {
         "Category-1": {
           "Product-1-1": ["1", "2", "3", "4","6", "8", "9", "10","11", "12", "13", "14","15", "16", "17", "18","19", "20"],
           "Product-1-2": ["1", "2", "3", "4","6", "8", "9", "10","11", "12", "13", "14","15", "16", "17", "18","19", "20"],
@@ -57,28 +57,28 @@
         }
       }
       window.onload = function() {
-        var subjectSel = document.getElementById("subject");
-        var topicSel = document.getElementById("topic");
-        var chapterSel = document.getElementById("chapter");
-        for (var x in subjectObject) {
-          subjectSel.options[subjectSel.options.length] = new Option(x, x);
+        var cateSel = document.getElementById("category");
+        var prodSel = document.getElementById("product");
+        var quantSel = document.getElementById("quantity");
+        for (var x in myobj) {
+          cateSel.options[cateSel.options.length] = new Option(x, x);
         }
-        subjectSel.onchange = function() {
+        cateSel.onchange = function() {
           //empty Chapters- and Topics- dropdowns
-          chapterSel.length = 1;
-          topicSel.length = 1;
+          quantSel.length = 1;
+          prodSel.length = 1;
           //display correct values
-          for (var y in subjectObject[this.value]) {
-            topicSel.options[topicSel.options.length] = new Option(y, y);
+          for (var y in myobj[this.value]) {
+            prodSel.options[prodSel.options.length] = new Option(y, y);
           }
         }
-        topicSel.onchange = function() {
+        prodSel.onchange = function() {
           //empty Chapters dropdown
-          chapterSel.length = 1;
+          quantSel.length = 1;
           //display correct values
-          var z = subjectObject[subjectSel.value][this.value];
+          var z = myobj[cateSel.value][this.value];
           for (var i = 0; i < z.length; i++) {
-            chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+            quantSel.options[quantSel.options.length] = new Option(z[i], z[i]);
           }
         }
       }
