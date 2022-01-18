@@ -1,0 +1,56 @@
+{% include 'users/endusers/user_navbar.html' %}
+
+{% block content %} 
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  width: 60%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+}
+tr{
+   background-color: #96D4D4;
+}
+</style>
+<script>
+function myFunction() {
+  var myobj = document.getElementById("record");
+  myobj.remove();
+}
+</script>
+<div class="container">
+    <br><br>
+    <center>
+    <h2 class="text-center">Approved Requirements</h2><br>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+                <tr> 
+                    <th>Category</th>
+                    <th>Product</th> 
+                    <th>Price</th>
+                </tr>
+
+                {% for i in order %}
+                <tr id="record"> 
+                    <td >{{i.category}}</td>
+                    <td>{{i.product}}</td>
+                    <td>{{i.price}} &nbsp;
+                    <button type="submit" value="Submit" class="btn btn-primary" onclick="confirm('Added to cart')">BUY</button></td>
+                </tr>
+                <input type="hidden" name="order_id" value="{{ i.order_id }}">
+                {% endfor %}
+        </table>
+        <br>
+        <br>   
+    </form>
+    </center>
+
+</div> 
+
+{% endblock content %}

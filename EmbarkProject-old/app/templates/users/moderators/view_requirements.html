@@ -1,0 +1,63 @@
+{% include 'users/moderators/mod_navbar.html' %}
+{% block content %}
+<style>
+table {
+  font-family: arial, sans-serif;
+  width: 60%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+}
+tr{
+   background-color: #96D4D4;
+}
+ 
+</style>
+<div class="container">
+    <br><br>
+    <center>
+    <h2 class="text-center">Available Requirements</h2><br>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Product</th>
+                    <th>Qunatity</th>
+                    <th>Approval Status</th>
+                </tr>
+
+                {% for i in order %}
+                <tr>
+                    <td>{{i.order_id}}</td>
+                    <td>{{i.category}}</td>
+                    <td>{{i.product}}</td>
+                    <td>{{i.quantity}}</td>
+                    <td>
+                    {% if i.approved_status == 0 %}
+                    <a href="{% url 'approved' order_id=i.order_id %}" name="approve" class="btn btn-warning">Approve</a>
+                    <a href="{% url 'declined' order_id=i.order_id %}" name="decline" class="btn btn-warning">Decline</a>
+                    {% elif i.approved_status == 1 %}
+                    <button name="approve" disabled=disabed class="btn btn-success">Approved</button>
+                    {% else %}
+                    <button name="decline" disabled=disabed class="btn btn-danger">Declined</button>
+                    {% endif %}
+
+                </td>
+                </tr>
+                {% endfor %}
+               
+        </table>    
+
+        <br>
+        <br>
+    </form>
+    </center>
+
+</div>
+
+{% endblock content %}
