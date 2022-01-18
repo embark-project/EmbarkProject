@@ -3,7 +3,7 @@
 <style>
 table {
   font-family: arial, sans-serif;
-  width: 60%;
+  width: 100%;
 }
 thead{
     background-color: #3a96ba;
@@ -32,7 +32,7 @@ td, th {
                     <th>ID</th>
                     <th>Category</th>
                     <th>Product</th>
-                    <th>Qunatity</th>
+                    <th>Quantity</th>
                     <th>Approval Status</th>
                     <th>Reason</th>
                 </tr>
@@ -55,10 +55,16 @@ td, th {
                     {% endif %}
                     </td>
                     <td>
-                    <input type="text" name="reason" value="{{ i.reason }}">
+                     <select name="reason">
+                       <option value="Approved: Your requested has been approved">Approved: Your requested has been approved</option>
+                       <option value="Rejected: Out of stock">Rejected: Out of stock</option>
+                       <option value="Rejected: Unavailabilty of sufficient quantity">Rejected: Unavailabilty of sufficient quantity</option>
+                       <option value="Rejected: reason 3">Rejected: reason 3</option>
+                     </select> 
                     <button type="submit" value="Submit" class="btn btn-primary" onclick="alert('Reason Updated')">Submit</button>
                     </td>
                 </tr>
+                <input type="hidden" name="order_id" value="{{ i.order_id }}">
                 {% endfor %}
             </tbody>
         </table>    

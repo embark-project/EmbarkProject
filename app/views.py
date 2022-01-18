@@ -153,10 +153,10 @@ def post_requirements(request):
 
 @login_required
 def view_requirements(request):
-    if request.method == 'POST':
-        reason = request.POST['reason']
-        obj = Order(reason=reason)
-        obj.save()
+    order_ids = request.POST.getlist("order_id")
+    reason = request.POST.getlist("reason")
+    for i in range(len(order_ids)):
+        Order.objects.filter(order_id=order_ids[i]).update(reason=reason[i])
     d = {'order': Order.objects.all()}
     messages.info(request,"User posted a new requirement. Waiting for your approval")
     return render(request, 'users/moderators/view_requirements.html',d)
