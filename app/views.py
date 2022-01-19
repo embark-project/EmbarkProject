@@ -11,9 +11,7 @@ from .models import User_type, Req, Order
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login 
-from django.urls import reverse_lazy
 from django.urls import reverse
-
 
 choices = [0,1,2]
 # Create your views here.
@@ -199,9 +197,9 @@ def approval_requirements(request):
 @login_required
 def add_order(request):
     if request.method == 'POST':
-        cat = request.POST['order_cat']
-        prod = request.POST['order_prod']
-        quan = request.POST['order_quan']
+        cat = request.POST.get('order_cat')
+        prod = request.POST.get('order_prod')
+        quan = request.POST.get('order_quan')
         obj = Order(category=cat, product=prod, quantity=quan)
         obj.save()
         messages.success(request,"New things are posted. Check it out")

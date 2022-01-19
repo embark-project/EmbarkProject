@@ -33,19 +33,14 @@ class Req(models.Model):
         return f'Posted {self.quantity} {self.product} under {self.category} '
 
 class Order(models.Model):
-    reasons = (
-        ('Approved: Your requested has been approved', 'Approved: Your requested has been approved'),
-        ('Rejected: Out of stock','Rejected: Out of stock'),
-        ('Rejected: Unavailabilty of sufficient quantity','Rejected: Unavailabilty of sufficient quantity'),
-        ('Rejected: reason 3','Rejected: reason 3')
-    )
+    
     order_id = models.AutoField(primary_key=True)
     category = models.CharField(max_length=40)
     product = models.CharField(max_length=20)
     quantity = models.IntegerField(default=0)
     price= models.DecimalField(max_digits=10, decimal_places=2, default=0)
     approved_status = models.IntegerField(default=0) 
-    reason = models.CharField(max_length=120,choices=reasons,blank=True)
+    reason = models.CharField(max_length=120,blank=True)
 
     def __str__(self):
         return f'Need {self.quantity} {self.product} under {self.category}.The determined price is {self.price}'
